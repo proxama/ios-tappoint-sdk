@@ -18,10 +18,6 @@ Pod::Spec.new do |s|
   s.framework             = 'CoreData', 'CoreLocation', 'Foundation'
   s.dependency            'Analytics', '~> 3.1.0'
 
-  s.source_files          = 'TapPointSDK/TapPointSDK.framework/Versions/A/Headers/*.h'
   s.vendored_frameworks   = 'TapPointSDK/TapPointSDK.framework'
   s.resource              = 'Resources/*.bundle'
- 
-  s.xcconfig              =  {  'LIBRARY_SEARCH_PATHS' => '"$(PODS_ROOT)/TapPointSDK"',
-                                'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/Headers/TapPointSDK"' }
 end
