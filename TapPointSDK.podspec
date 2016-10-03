@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.requires_arc          = true
 
-  s.framework             = 'CoreData', 'CoreLocation', 'Foundation'
+  s.framework             = 'CoreData', 'CoreLocation', 'Foundation', 'AdSupport'
   s.dependency            'Analytics', '~> 3.1.0'
 
   s.vendored_frameworks   = 'TapPointSDK/TapPointSDK.framework'

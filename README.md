@@ -1,24 +1,21 @@
-# SDK Reference App
+# TapPoint SDK
 
-The SDK Reference App demonstrates an end-to-end integration of the TapPoint&reg; SDK into an example application. It shows how to:
+The TapPoint&reg; SDK enables you to interact with the TapPoint&reg; beacon network easily, providing you with the ability to:
 
 1. Connect to TapPoint&reg; (Authenticate)
 2. Download trigger information (Synchronise)
 3. Detect trigger events and respond to them in the application (Monitor)
 4. Send analytics information to TapPoint&reg; (Reporting)
 
-Use the Reference App as a guide for integrating TapPoint&reg; into your own projects.
-SDK reference documentation is also available on the [TapPoint developer portal](http://developer.tappoint.com/).
+TapPoint&reg; SDK reference documentation is also available on the [TapPoint developer portal](http://developer.tappoint.com/).
 
 ## Getting Started
 
 ### Prerequisites
 
-The application requires Xcode 6.1.
-
 To get trigger events working, you will need either a physical Bluetooth beacon, or use an iPhone as a virtual beacon.
 
-There are ready-made apps in the iTunes app store that can act as virtual beacons. That's the easiest option to get started.
+There are ready-made apps in the iTunes app store that can act as virtual beacons, including our [Virtual Beacon app](https://appsto.re/gb/aCMr7.i). That's the easiest option to get started.
 
 If you do want to dive deeper, then Apple's [AirLocate sample](https://developer.apple.com/library/ios/samplecode/AirLocate/Introduction/Intro.html) sample code shows how to build a virtual beacon.
 
@@ -31,90 +28,126 @@ Whether you have a virtual or a physical beacon, configure it as follows:
 | Minor    | `1` for test beacon one <br>or `2` for test beacon two <br> or `3` for test beacon three |
 
 It doesn't matter if the letters in the UUID are in upper or lower case.
+These beacons will trigger if registering with the app name of: sdk_reference_app (see the section: Authenticating with TapPoint).
 
-### Guided tour of the code
+## Guided tour of using the TapPoint&reg; SDK
 
-The project is configured with the framework prerequisites as described in the [Getting Started Guide](http://developer.tappoint.com/ios/quick-start).
-The first thing the reference app does when working with the TapPoint&reg; SDK is to Authenticate itself with TapPoint&reg;.
-The `AppDelegate.m` file imports the TapPoint&reg; SDK header file.
-In its `application:didFinishLaunchingWithOptions:` method, we call:
+This walkthrough is also available from our portal [Getting Started Guide](http://developer.tappoint.com/ios/quick-start).
+
+### Prerequisites
+
+In Xcode, make sure the following conditions are met:
+* Deployment target is set to iOS 8.0 or higher
+* SDK version is set to iOS 8.0 SDK or higher
+* [CFBundleDisplayName](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-110725) has been set with a valid value. To do this, navigate to your application's main target, select the *Info* tab, add a new row with the key set as *Bundle display name*
+
+### iOS 8 Location Services
+
+TapPoint&reg; SDK uses location services to find out information about the user's current location. As of iOS 8, when using location services, you are required to add a string value for the [NSLocationAlwaysUsageDescription](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW18) within your application's `.plist` file. iOS uses this string to display a message when asking the user for permissions to use their location information.
+
+### Installing the SDK
+
+Either download the framework from our portal: [Getting Started Guide](http://developer.tappoint.com/ios/quick-start) or add the TapPoint&reg; SDK to your podfile: 
+
+```
+pod 'TapPointSDK', '~> 3.0'
+```
+
+As the TapPoint&reg; SDK uses categories, the final stage of installation requires you to add a linker flag to the main target of your application. This can be done by navigating to the *Build Settings* tab, then finding Other Linker Flags. Then add **-ObjC** as a linker flag, if it is not already there.
+
+### Using the SDK
+
+The TapPoint&reg; SDK has a set of APIs that you can use to:
+
+1. Authenticate your application with TapPoint
+2. Download Triggers (campaign data and campaign Payload)
+3. Start monitoring for beacons
+
+Several of these APIs provide relevant and useful feedback via blocks. In the case where an API provides a failure callback, you can inspect an [NSError](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/index.html) object to find out more information on the reason for failure. In the case where the API does not provide a callback for failure, a log message will be provided to the debug console within your Xcode development environment, or using Console.app.
+
+You can import the `<TapPointSDK/TapPointSDK.h>` header to use any of the TapPoint SDK APIs.
+
+#### Authenticating with TapPoint
+
+Authenticate with TapPoint by passing the application name (provided by Proxama) as a parameter to the `authenticateWithAppName:success:failure:` method.
+
+It is important that you call this API in your AppDelegate's `application:didFinishLaunchingWithOptions:` method.
 
 ```
 [[PRXAuthentication sharedAuthenticationManager] authenticateWithAppName:@"sdk_reference_app" success:^{
-     NSLog(@"TapPoint: Successfuly authenticated with TapPoint.");
-        ...
-} ^failure:^(NSError *error) {
-        ...
+    // The application successfully authenticated with TapPoint
+} failure:^(NSError *error) {
+    // The application failed to authenticate with TapPoint
 }];
 ```
-If authentication succeeds, then the code inside the success block happens, otherwise the failure block is called.
 
-#### Synchronisation
+This API should be called every time your application launches to ensure that other APIs being called can be used.
 
-The TapPoint&reg; server has already been configured with 'IN' and 'OUT' triggers for the 3 reference app beacons - 6 triggers in total.
-Those triggers have to be downloaded (synchronised) onto the device. The first time the application launches there won't be any triggers on the device, and it will download all of them from the server. The next time though, unless the data on TapPoint&reg; has changed, the application will already be up to date and no new triggers will be downloaded during the synchronisation.
+#### Synchronising Triggers
 
-Because you have to authenticate with TapPoint&reg; first, we call synchronise in the success block of authenticate:
+One of the advantages of using TapPoint&reg; SDK is that it delivers campaign data even in areas of no connectivity (underground, stadiums). Triggers, which encapsulate campaign data, are required to be synced down to the SDK prior to a campaign starting.
+
+For testing purposes we've sent 3 physical beacons to help you with your integration (or if you have an iOS device you can use our [Virtual Beacon app](https://appsto.re/gb/aCMr7.i) to simulate a beacon). To add campaign data to these Triggers use the [TapPoint Beacon Payload Editor](https://connect.tappoint.com/payload/) tool. Once saved, perform a sync:
 
 ```
 [[PRXSynchronisation sharedSynchronisationManager] synchroniseWithSuccess:^(PRXSyncResult *result) {
-    NSLog(@"TapPoint: Synchronised with TapPoint.");
-    ...
+    // The application synchronised successfully with TapPoint
 } failure:^(NSError *error) {
-    NSLog(@"TapPoint: Unable to synchronise with TapPoint.");
-    ...
-}];         
+    // The application failed to synchronise with TapPoint
+}];
 ```
 
-### Monitoring for trigger events
+Upon successful synchronisation with TapPoint, the success block provides a [PRXSyncResult](http://developer.tappoint.com/ios/api-docs/Classes/PRXSyncResult.html) object that contains arrays of both Triggers that have been added, and Triggers that have been removed during this synchronisation. This is purely for your information, the Triggers will be automatically stored by the TapPoint&reg; SDK. In the instance where synchronisation has failed, you can inspect the [NSError](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/index.html) object to find out the reason for failure where both an error code and error description is provided.
 
-Once the triggers have been successfully downloaded, we can begin to monitor for beacons.
+##### Synchronisation Strategy
 
-We register the `appDelegate` with the default `NSNotificationCenter`, asking for our `processDetectedTrigger:` method to be called whenever a trigger is detected (and a `PRXTriggersDetectedNotification` is broadcast):
+Once Triggers have been successfully synced onto the device, you do not have to sync again, unless the Trigger data on TapPoint has changed (e.g. a new campaign has been created). It is up to you to decide when and how often a sync should take place.
 
-``` 
-[[NSNotificationCenter defaultCenter] addObserver:self
-                                         selector:@selector(processDetectedTrigger:)
-                                             name:PRXTriggersDetectedNotification
-                                           object:nil];
+A simple syncing strategy would be to perform a synchronisation with TapPoint every time your application launches.
+
+#### Trigger Monitoring
+
+Notifications about Trigger events are emitted by the default [NSNotificationCenter](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/index.html), and in order to listen to these events you need to add yourself an as observer to [NSNotificationCenter](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/index.html) notification events named [PRXTriggersDetectedNotification](http://developer.tappoint.com/ios/api-docs/Classes/PRXTriggers.html) and provide a callback message (e.g. `triggerDetected:`) which will be sent when a Trigger event is fired.
+
+```
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerDetected:) name:PRXTriggersDetectedNotification object:nil];
 ```
 
-Then we call startMonitoring:
+Call `startMonitoring` to begin scanning for Triggers. Notifications will then be generated in response to Trigger events.
 
 ```
 [[PRXTriggers sharedTriggersManager] startMonitoring];
 ```
 
-### Reporting trigger events
+**NOTE:** If you are monitoring for Trigger events, any new Triggers subsequently added will automatically be monitored.
 
-When the `appDelegate` detects a trigger event, it will log it with `NSLog` (not recommended for a real application!).
-To report that the user was notified about the trigger, the `processDetectedTrigger:` method calls the reporting SDK to report that a trigger-related event has occurred:
+**NOTE:** Trigger events can only be detected and notifications sent when the user has bluetooth/location services turned on, but should the user disable bluetooth/location services, they will automatically start being detected and sending notifications once they are turned on again. There is no need to call `startMonitoring` again to make that happen.
 
-```
-PRXTrigger *trigger = [notification.userInfo objectForKey:PRXDetectedTriggerNotificationKeyForTrigger];
-[[PRXReporting sharedReportingManager] reportTriggerEvent:PRXTriggerEventTypeUserNotified triggerID:trigger.identifier];
-```
-
-A better example requires some user interaction, such as displaying a visual notification to the user, or responding to taps on those visual notifications. The `BeaconEventsTableViewController` class shows that in more detail.
-
-### Using trigger payload data
-
-In the `BeaconEventsTableViewController` we show a table view, with a row for each beacon event detected. Each table view cell shows a title, a subtitle, and an icon representing which beacon triggered the event.
-
-The title, subtitle and the name of the image to display are taken from the trigger payload that is defined on TapPoint&reg;. The method `tableView:cellForRowAtIndexPath:` shows how to take a `NSNotification` object and extract a `PRXTrigger` object from its `userInfo` dictionary:
+If you wish to stop monitoring for Trigger events call the `stopMonitoring` method to stop being notified.
 
 ```
-PRXTrigger *trigger = notification.userInfo[PRXDetectedTriggerNotificationKeyForTrigger];
-NSDictionary *payloadData = trigger.payload[@"data"];
+[[PRXTriggers sharedTriggersManager] stopMonitoring];
 ```
 
-The `payloadData` dictionary then contains the custom payload data that was defined on TapPoint&reg;.
+##### Receiving Trigger Events
 
-### Reporting other events
+Upon receiving a Trigger event (e.g. coming in range of a beacon you are listening for), the callback message you previously defined will be sent and you will be delivered the [PRXTrigger](http://developer.tappoint.com/ios/api-docs/Classes/PRXTrigger.html) object which encapsulates your campaign data.
 
-There are two kinds of events that we report. One is when a visual notification is displayed to the user - in this case that's when we add a new row to our table - that's `PRXTriggerEventTypeUserNotified`, and for the reference app, this is actually reported by the `AppDelegate`. The other kind of event is when the user taps on an item in the table - that's `PRXTriggerEventTypeUserSelected`. The `tableView:didSelectRowAtIndexPath:` method shows how to report a 'user selected' event type.
+The [PRXTrigger](http://developer.tappoint.com/ios/api-docs/Classes/PRXTrigger.html) object is available in the userInfo dictionary of the [NSNotification](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/index.html), using the [PRXDetectedTriggerNotificationKeyForTrigger](http://developer.tappoint.com/ios/api-docs/Classes/PRXTriggers.html) key. This includes the unique identifier of the trigger, and the trigger payload data that you defined earlier.
 
-### Running the application
+```
+- (void)triggerDetected:(NSNotification *)notification
+{
+    PRXTrigger *trigger = [notification.userInfo objectForKey:PRXDetectedTriggerNotificationKeyForTrigger];
 
-Build and run the application on a device - the simulator doesn't support iBeacons. Then get ready with your physical or virtual beacons.
-You don't have to move - simply turn a bluetooth beacon on or off to simulate entering into or leaving a beacon's range. You should see beacon events appear in the table view and log statements in the console.
+    NSLog(@"Trigger ID: %@", trigger.identifier);
+    NSLog(@"Trigger Payload: %@", trigger.payload);
+}
+```
+
+**NOTE:** iOS does not report that the device has left the range of a beacon until its signal remains undetected for long enough to rule out temporary physical interference with the Bluetooth low-energy radio signal. This can take up to 1 minute.
+
+#### Next Steps
+
+* Prevent the number of times a user receives a notification by [implementing an anti-spam rule](http://developer.tappoint.com/advanced/anti-spam/)
+* Add [reporting hooks](http://developer.tappoint.com/advanced/reporting-hooks/) to gain further insights into the effectiveness of a campaign
