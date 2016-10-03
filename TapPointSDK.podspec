@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
                           DESC
 
   s.homepage              = 'http://developer.tappoint.com/'
-  s.license               = { :type => 'Apache 2.0', :file => 'Licence.txt' }
+  s.license               = { :type => 'Commercial', :file => 'Licence.txt' }
   s.author                = { "Proxama PLC" => "support@proxama.com" }
   s.source                = { :git => 'https://github.com/proxama/ios-tappoint-sdk.git', :tag => 'v3.0.0' }
   s.social_media_url      = 'https://twitter.com/proxama?lang=en-gb'
