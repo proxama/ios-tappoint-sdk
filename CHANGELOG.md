@@ -72,8 +72,4 @@
 
 - Updates to Cocoapods v1.2.0.
 - Updated to Segment Analytics version 3.6.0.
-- Adds new `GeoHex Safety Fence` reporting event which is sent when the safety geofence is left.
-- Adds new `GeoHex Location Failed` reporting event which is sent when the SDK is unable to get a location.
-- Added `Location Permission Change` reporting event.
-- Added additional properties to reporting events related to Location.
-- Fixed a defect where some Location Managers were not being created on the main thread.
+- Minor location related bug fixes.
