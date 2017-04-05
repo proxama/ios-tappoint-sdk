@@ -61,3 +61,15 @@
 - Removal of the location permission request. Permissions now to be handled app-side.
 - Added reporting of Bluetooth switched on/off events.
 - Added location_permission core field to all reporting events.
+
+## Version 3.1.0
+
+- Added GeoHex tracking functionality.
+- Removed reporting of Bluetooth switched on/off events.
+- Updated to Segment Analytics version 3.4.0.
+
+## Version 3.2.0
+
+- Updates to Cocoapods v1.2.0.
+- Updated to Segment Analytics version 3.6.0.
+- Minor location related bug fixes.
