@@ -73,3 +73,7 @@
 - Updates to Cocoapods v1.2.0.
 - Updated to Segment Analytics version 3.6.0.
 - Minor location related bug fixes.
+
+## Version 3.2.1
+
+- Minor bug fixes.
