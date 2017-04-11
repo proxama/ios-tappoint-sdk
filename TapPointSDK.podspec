@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'TapPointSDK'
-  s.version               = '3.2.0'
+  s.version               = '3.2.1'
   s.summary               = 'iOS beacon library used to interact with the TapPoint network effortlessly.'
   s.description           = <<-DESC
                           TapPoint SDK makes it easy to take advantage of Bluetooth beacons, enabling you to focus on creating the best possible app experience for your users. Once integrated it enables your app to detect nearby beacons and trigger content specific to that beacon's location.
