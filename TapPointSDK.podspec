@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage              = 'http://developer.tappoint.com/'
   s.license               = { :type => 'Commercial', :file => 'Licence.txt' }
   s.author                = { "Proxama PLC" => "support@proxama.com" }
-  s.source                = { :git => 'https://github.com/proxama/ios-tappoint-sdk.git', :tag => 'v3.2.0' }
+  s.source                = { :git => 'https://github.com/proxama/ios-tappoint-sdk.git', :tag => 'v3.2.1' }
   s.social_media_url      = 'https://twitter.com/proxama?lang=en-gb'
   s.platform              = :ios
   s.ios.deployment_target = '8.0'
