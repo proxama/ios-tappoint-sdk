@@ -77,3 +77,7 @@
 ## Version 3.2.1
 
 - Minor bug fixes.
+
+## Version 3.2.2 - 17/05/17
+
+- Minor networking bug fix.
