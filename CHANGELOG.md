@@ -81,3 +81,7 @@
 ## Version 3.2.2 - 17/05/17
 
 - Minor networking bug fix.
+
+## Version 3.3.0 - 06/07/17
+
+- Added improvements to tracking functionality.
