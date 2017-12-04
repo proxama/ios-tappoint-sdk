@@ -27,10 +27,10 @@ typedef void (^PRXAuthenticateFailureBlock)(NSError *error);
  * Authenticates an application with TapPoint.
  *
  * You must wait for this method to call its success block before attempting to use any TapPoint 
- * features. You should typically call this method as soon as possible after application launch, 
+ * features. You should call this method as soon as possible after application launch,
  * or when the network connection first becomes available. You should call this method every time 
- * the application launches, even if the application has been successfully authenticated on a previous
- * launch.
+ * the application launches in the app delegate's didFinishLaunchingWithOptions: method, even if 
+ * the application has been successfully authenticated on a previous launch.
  *
  * Authentication can fail for several reasons, for example the provided application name is invalid, or 
  * if the network connection is not functioning. Your application should inspect the NSError object that
@@ -40,11 +40,9 @@ typedef void (^PRXAuthenticateFailureBlock)(NSError *error);
  *
  * @param appName Name of the application on TapPoint. This can be found in your app's settings
  * on TapPoint's campaign portal. This is case sensitive.
- *
  * @param successBlock Block called when authentication succeeds. You should use this
  * block to perform additional steps that depend on successful authentication, such as
  * synchronising with TapPoint.
- *
  * @param failureBlock Block called when authentication fails. This block contains an NSError
  * argument describing the cause of the error.
  */

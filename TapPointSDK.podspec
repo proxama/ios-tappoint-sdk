@@ -16,7 +16,6 @@ Pod::Spec.new do |s|
   s.requires_arc          = true
 
   s.framework             = 'CoreData', 'CoreLocation', 'Foundation', 'AdSupport'
-  s.dependency            'Analytics', '~> 3.6.0'
 
   s.vendored_frameworks   = 'TapPointSDK/TapPointSDK.framework'
   s.resource              = 'Resources/*.bundle'

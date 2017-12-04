@@ -85,3 +85,11 @@
 ## Version 3.3.0 - 06/07/17
 
 - Added improvements to tracking functionality.
+
+# Version 3.4.0 - 04/12/17
+
+- Added configuration Library and functionality to retrieve a configuration from the server that allows certain features to
+be turned off (BLE, Geo and Reporting) as well as changing the write key and reporting endpoint.
+- Convenience API that wraps Auth, Sync and Start Monitoring APIs.
+- 12 hour defence to calls against TapPoint's Sync API.
+- Segment Library is replaced with custom version that allows for the endpoint to be changed through the configuration.
