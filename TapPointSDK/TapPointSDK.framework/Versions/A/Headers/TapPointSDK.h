@@ -11,6 +11,7 @@
 #import "PRXReporting.h"
 #import "PRXSynchronisation.h"
 #import "PRXSyncResult.h"
+#import "PRXTapPointManager.h"
 #import "PRXTrigger.h"
 #import "PRXTriggerEventType.h"
 #import "PRXTriggerRateStatistics.h"
