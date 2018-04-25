@@ -93,3 +93,7 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 - Convenience API that wraps Auth, Sync and Start Monitoring APIs.
 - 12 hour defence to calls against TapPoint's Sync API.
 - Segment Library is replaced with custom version that allows for the endpoint to be changed through the configuration.
+
+# Version 3.4.1 - 25/04/18
+
+- Fixed a bug which caused application freeze.
