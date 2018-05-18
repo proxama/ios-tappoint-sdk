@@ -16,3 +16,5 @@
 #import "PRXTriggerEventType.h"
 #import "PRXTriggerRateStatistics.h"
 #import "PRXTriggers.h"
+#import "PRXConfiguration.h"
+#import "PRXConsentStatus.h"
