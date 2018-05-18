@@ -2,7 +2,7 @@
 
 ## Version 1.0.0
 
-- The first release of the TapPoint SDK that includes access to four APIs: Authentication, Synchronisation, Triggers and Reporting. 
+- The first release of the TapPoint SDK that includes access to four APIs: Authentication, Synchronisation, Triggers and Reporting.
 
 
 ## Version 1.0.1
@@ -97,3 +97,10 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 # Version 3.4.1 - 25/04/18
 
 - Fixed a bug which caused application freeze.
+
+# Version 3.5.0 - 18/05/18
+
+- Added new `Visit` reporting event which is sent when a visit is reported by iOS SDK.
+- Added a possibility to set user's consent related to storing and using his private data (due to GDPR act).
+- Refactored a configuration module (changes under the hood).
+- Fixed a defect where an old endpoint was used after app's upgrade.
