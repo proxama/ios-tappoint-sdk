@@ -16,7 +16,7 @@
 @protocol PRXConfigurationManager <NSObject>
 
 /**
- * @param status Status of data consent. You must not set it to undefined status.
+ * @param consentStatus Status of data consent. You must not set it to undefined status.
  *
  * @throws InvalidArgumentException if given status is equal to undefined.
  */

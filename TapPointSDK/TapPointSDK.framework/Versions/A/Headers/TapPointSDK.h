@@ -18,3 +18,4 @@
 #import "PRXTriggers.h"
 #import "PRXConfiguration.h"
 #import "PRXConsentStatus.h"
+#import "PRXLogger.h"
