@@ -104,3 +104,14 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 - Added a possibility to set user's consent related to storing and using his private data (due to GDPR act).
 - Refactored a configuration module (changes under the hood).
 - Fixed a defect where an old endpoint was used after app's upgrade.
+
+#Version 3.6.0 - 31/10/18
+
+- Improved dwell algorithm
+- Add last_tile_latitude to Geohex transition
+- Add last_tile_longitude to Geohex transition
+- Add ablity to scan for beacons when within a GeoHex containing a beacon. Otherwise BLE scanning is disabled
+- Ability to enable Granular Location Update events when the user is in GeoHex's flagged as POIs
+- Ability to enable Location Update events in general for the user
+- Add logging feature introduced for: better integration with clients, live troubleshooting, QA
+- Regression confirmed support of OS12
