@@ -105,7 +105,7 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 - Refactored a configuration module (changes under the hood).
 - Fixed a defect where an old endpoint was used after app's upgrade.
 
-#Version 3.6.0 - 31/10/18
+# Version 3.6.0 - 31/10/18
 
 - Improved dwell algorithm
 - Add last_tile_latitude to Geohex transition
