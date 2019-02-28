@@ -115,3 +115,7 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 - Ability to enable Location Update events in general for the user
 - Add logging feature introduced for: better integration with clients, live troubleshooting, QA
 - Regression confirmed support of OS12
+
+# Version 3.6.1 - 28/02/19
+
+- Improved flushing logic for SDK events
