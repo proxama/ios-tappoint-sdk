@@ -50,7 +50,7 @@ TapPoint&reg; SDK uses location services to find out information about the user'
 The TapPoint&reg; SDK uses CocoaPods. In order to use the TapPoint&reg; SDK, add the following to your podfile:
 
 ```
-pod 'TapPointSDK', '~> 3.6.1'
+pod 'TapPointSDK', '~> 3.7.0'
 ```
 
 As the TapPoint&reg; SDK uses categories, the final stage of installation requires you to add a linker flag to the main target of your application. This can be done by navigating to the *Build Settings* tab, then finding Other Linker Flags. Then add **-ObjC** as a linker flag, if it is not already there.

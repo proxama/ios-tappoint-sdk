@@ -11,7 +11,7 @@
  */
 typedef NS_ENUM(NSUInteger, PRXConsentStatus) {
 	/**
-	 * Indicates that user have not specified permission and we can act as if he has granted them
+	 * Indicates that user have not specified permission and we can act as if he has NOT granted them
 	 */
 	PRXConsentStatusUndefined = 0,
 	
