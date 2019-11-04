@@ -119,3 +119,9 @@ be turned off (BLE, Geo and Reporting) as well as changing the write key and rep
 # Version 3.6.1 - 28/02/19
 
 - Improved flushing logic for SDK events
+
+# Version 3.7.0 - 04/11/19
+
+- iOS13 Support
+- Support for non-BLE applications
+- General bug fixes
